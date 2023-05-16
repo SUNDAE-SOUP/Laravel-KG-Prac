@@ -7,6 +7,9 @@ use App\Models\Blog;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
+
+
 
 class UserBlogController extends Controller
 {
@@ -65,7 +68,19 @@ class UserBlogController extends Controller
 
 
                 if($request->thumbnail){
-                    $thumbnail = request()->file('thumbnail')->store('thumbnails');
+                    /* $thumbnail = request()->file('thumbnail')->store('thumbnails', 'public'); */
+                    $thumbnail = $request->file('thumbnail');
+                    $path = $thumbnail->store('thumbnails', 'public');
+                    $imagePath = new Blog();
+                    $imagePath->thumbnail = $path;
+                    $imagePath->save();
+
+                    /* $thumbnail = $request->file('thumbnail');
+                    $name = Str::slug($request->input('title')).'_'.time();
+                    $folder = '/public/thumbnails';
+                    $filepath = $folder . $name. '.' . $thumbnail->getClientOriginalExtension();
+                    $this->uploadOne($thumbnail, $folder, 'public', $name); */
+
                 }else{
                     $thumbnail = 'thumbnail.jpg';
                 }
@@ -76,7 +91,7 @@ class UserBlogController extends Controller
             }
 
 
-        return redirect('/dashboard')->with('success', 'Success');
+        return redirect('/dashboard', ['imagePath' => $imagePath])->with('success', 'Success');
 
     }
 

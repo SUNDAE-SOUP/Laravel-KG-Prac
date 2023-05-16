@@ -49,6 +49,12 @@
                             <p class="text-sm text-gray-500">
                                 <a href="/user/{{ $blog->user_id }}/blog/{{ $blog->id }}" class="hover:underline">{{ $blog->content }}</a>
                             </p>
+                            <div class="min-w-0 flex-1">
+                                <a href="/user/{{ $blog->user_id }}/blog/{{ $blog->id }}" class="hover:underline">
+                                    <img src="{{ $blog->thumbnail }}">
+                                </a>
+                            </div>
+                            
                         </div>
                         <div class="flex flex-shrink-0 self-center">
                             <div class="relative inline-block text-left">
