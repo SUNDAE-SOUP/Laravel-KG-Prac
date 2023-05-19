@@ -1,9 +1,31 @@
 <x-app-layout>
+    <x-slot name="alert alert-{{ $success }}">
+        
+            
+        @if (Session::has('Success'))
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert">
+                    <i class="fa fa-times"></i>
+                </button>
+                <strong>Success !</strong> {{ session('Success') }}
+            </div>
+        @endif
+
+        @if (Session::has('error'))
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert">
+                    <i class="fa fa-times"></i>
+                </button>
+                <strong>Error !</strong> {{ session('error') }}
+            </div>
+        @endif
+    </x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
+    
     <x-slot name="content">
     <div class="p-4">
         {{ $blogs->links() }}
@@ -51,7 +73,7 @@
                             </p>
                             <div class="min-w-0 flex-1">
                                 <a href="/user/{{ $blog->user_id }}/blog/{{ $blog->id }}" class="hover:underline">
-                                    <img src="{{ $blog->thumbnail }}">
+                                    <img src="{{ asset('/storage/'.$blog->thumbnail) }}" width='50%' height='50%'>
                                 </a>
                             </div>
                             

@@ -52,6 +52,11 @@
                             <a href="/user/{{ $blog->user_id }}/blog/{{ $blog->id }}" class="hover:underline">{{
                                 $blog->content }}</a>
                         </p>
+                        <div class="min-w-0 flex-1">
+                                <a href="/user/{{ $blog->user_id }}/blog/{{ $blog->id }}" class="hover:underline">
+                                    <img src="{{ asset('/storage/'.$blog->thumbnail) }}" width='50%' height='50%'>
+                                </a>
+                        </div>
                     </div>
                     <div class="flex flex-shrink-0 self-center">
                         <div class="relative inline-block text-left">

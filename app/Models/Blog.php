@@ -10,8 +10,10 @@ class Blog extends Model
     use HasFactory;
 
     protected $attributes = [
-        'thumbnail' => ''
+        'thumbnail' => 'thumbnails/thumbnail.jpg'
     ];
+
+
 
     
     public function user(){

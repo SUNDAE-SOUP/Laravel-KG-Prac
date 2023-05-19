@@ -8,6 +8,8 @@ use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
+
 
 
 
@@ -64,16 +66,21 @@ class UserBlogController extends Controller
                 $thumbnail = '';
 
 
-                $validated['user_id'] = $user->id;
+                
 
 
-                if($request->thumbnail){
-                    /* $thumbnail = request()->file('thumbnail')->store('thumbnails', 'public'); */
-                    $thumbnail = $request->file('thumbnail');
-                    $path = $thumbnail->store('thumbnails', 'public');
-                    $imagePath = new Blog();
+                if($request->thumbnail) {
+                    $thumbnail = $request->file('thumbnail')->store('thumbnails', 'public');
+
+                    /* $thumbnail = time().$request->file('thumbnail')->getClientOriginalName();
+                    $path = $request->file('thumbnail')->storeAs('thumbnails', $thumbnail, 'public');
+                    $thumbnailPath = '/storage/'.$path; */
+                    
+                    /* $thumbnail = str_replace('public/', '', $path); */
+
+                    /* $imagePath = new Blog();
                     $imagePath->thumbnail = $path;
-                    $imagePath->save();
+                    $imagePath->save(); */
 
                     /* $thumbnail = $request->file('thumbnail');
                     $name = Str::slug($request->input('title')).'_'.time();
@@ -82,8 +89,11 @@ class UserBlogController extends Controller
                     $this->uploadOne($thumbnail, $folder, 'public', $name); */
 
                 }else{
-                    $thumbnail = 'thumbnail.jpg';
+                    $thumbnail = 'thumbnails/thumbnail.jpg';
                 }
+
+                $validated['user_id'] = $user->id;
+                $validated['thumbnail'] = $thumbnail;
 
                 $blog = Blog::create($validated);
             }catch(\Exception $e){
@@ -91,7 +101,7 @@ class UserBlogController extends Controller
             }
 
 
-        return redirect('/dashboard', ['imagePath' => $imagePath])->with('success', 'Success');
+        return redirect('/dashboard',)->with('Success', 'A new blog has been added!');
 
     }
 
